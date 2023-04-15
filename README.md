@@ -17,33 +17,6 @@
 
 ## 工具
 
-### 获取数据类型
-
-#### 描述
-
-通过调用方法来判断某个值的类型
-
-#### 用法
-
-|   #    |          解释          |
-| :----: | :--------------------: |
-|  语法  | `PliLib.typeOf(value)` |
-|  参数  |   value:需要判断的值   |
-| 返回值 | 返回获取对应的数据类型 |
-
-#### 示例
-
-```javascript
-let a = {},
-  b = [],
-  c = null,
-  d;
-console.log(PliLib.typeOf(a)); // object
-console.log(PliLib.typeOf(b)); // array
-console.log(PliLib.typeOf(c)); // null
-console.log(PliLib.typeOf(d)); // undefined
-```
-
 ### 获取当前时间
 
 #### 描述
