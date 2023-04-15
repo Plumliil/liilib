@@ -8,7 +8,7 @@ import {
   reverseStr,
   palindrome,
   truncate,
-  pinYin,
+  toPinYin,
 } from "./tools/index";
 
 export {
@@ -21,5 +21,5 @@ export {
   reverseStr,
   palindrome,
   truncate,
-  pinYin,
+  toPinYin,
 };

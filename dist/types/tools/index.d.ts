@@ -54,5 +54,5 @@ declare function truncate(str: string, num: number): string;
  * @param type 是否首字母大写
  * @returns 转化后的拼音
  */
-declare function pinYin(value: string, type?: boolean): string;
-export { curTimeFormat, colorRdm, createRdm, filType, Rgb_Hex, sleep, reverseStr, palindrome, truncate, pinYin, };
+declare function toPinYin(value: string, type?: boolean): string;
+export { curTimeFormat, colorRdm, createRdm, filType, Rgb_Hex, sleep, reverseStr, palindrome, truncate, toPinYin, };

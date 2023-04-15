@@ -226,10 +226,10 @@ function pySearch(value: string, type: boolean = false) {
     // @ts-ignore
     if (pinyin[key].includes(value)) {
       if (type) {
-        rname = key;
-      } else {
         rname =
           key.substring(0, 1).toUpperCase() + key.substring(1, key.length);
+      } else {
+        rname = key;
       }
     }
   }
@@ -241,7 +241,7 @@ function pySearch(value: string, type: boolean = false) {
  * @param type 是否首字母大写
  * @returns 转化后的拼音
  */
-function pinYin(value: string, type: boolean = true) {
+function toPinYin(value: string, type: boolean = false) {
   let name = "";
   [...value].forEach((item) => {
     name = name + pySearch(item, type);
@@ -259,5 +259,5 @@ export {
   reverseStr,
   palindrome,
   truncate,
-  pinYin,
+  toPinYin,
 };
