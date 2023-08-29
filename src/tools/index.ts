@@ -1,4 +1,3 @@
-import pinyin from "./pinyin";
 /**
  * 获取当前时间
  * @param type 时间格式
@@ -214,40 +213,6 @@ function truncate(str: string, num: number) {
   }
   return result.join("") + "...";
 }
-/**
- * 拼音搜索
- * @param value 传入的字符串
- * @param type 是否首字母大写
- * @returns 转化后的拼音
- */
-function pySearch(value: string, type: boolean = false) {
-  let rname = "";
-  for (let key in pinyin) {
-    // @ts-ignore
-    if (pinyin[key].includes(value)) {
-      if (type) {
-        rname =
-          key.substring(0, 1).toUpperCase() + key.substring(1, key.length);
-      } else {
-        rname = key;
-      }
-    }
-  }
-  return rname;
-}
-/**
- * 拼音转化
- * @param value 传入的字符串
- * @param type 是否首字母大写
- * @returns 转化后的拼音
- */
-function toPinYin(value: string, type: boolean = false) {
-  let name = "";
-  [...value].forEach((item) => {
-    name = name + pySearch(item, type);
-  });
-  return name;
-}
 
 export {
   curTimeFormat,
@@ -259,5 +224,4 @@ export {
   reverseStr,
   palindrome,
   truncate,
-  toPinYin,
 };

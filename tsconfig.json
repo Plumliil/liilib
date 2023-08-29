@@ -29,6 +29,7 @@
       "@utils/*": ["src/utils/*"]
     }
   },
-  "include": ["src"]
+  "ts-node": { "esm": true },
+  "include": ["src", "src/__test__/index.ts"],
+  "exclude": ["src/__test__"]
 }
-

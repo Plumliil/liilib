@@ -8,10 +8,9 @@ import {
   reverseStr,
   palindrome,
   truncate,
-  toPinYin,
-} from "./tools/index";
+} from './tools/index'
 
-export {
+console.log(
   curTimeFormat,
   colorRdm,
   createRdm,
@@ -20,6 +19,5 @@ export {
   sleep,
   reverseStr,
   palindrome,
-  truncate,
-  toPinYin,
-};
+  truncate
+)
