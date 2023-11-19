@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "es6",
+    "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -29,7 +29,5 @@
       "@utils/*": ["src/utils/*"]
     }
   },
-  "ts-node": { "esm": true },
-  "include": ["src", "src/__test__/index.ts"],
-  "exclude": ["src/__test__"]
+  "include": ["src"]
 }

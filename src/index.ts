@@ -1,23 +1,27 @@
+import { getValueByPathObj, getValueByPath } from './object'
 import {
   curTimeFormat,
-  colorRdm,
   createRdm,
   filType,
-  Rgb_Hex,
   sleep,
   reverseStr,
   palindrome,
   truncate,
-} from './tools/index'
+  formatJson,
+  convertColor
+} from './tools'
 
-console.log(
+
+export {
+  getValueByPathObj,
+  getValueByPath,
   curTimeFormat,
-  colorRdm,
   createRdm,
   filType,
-  Rgb_Hex,
   sleep,
   reverseStr,
   palindrome,
-  truncate
-)
+  truncate,
+  formatJson,
+  convertColor
+}

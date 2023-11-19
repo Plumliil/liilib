@@ -1,3 +1,5 @@
+import { Color } from "./types";
+
 /**
  * 获取当前时间
  * @param type 时间格式
@@ -78,52 +80,40 @@ const createRdm = (
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-// 颜色转换 参数rgb 格式限定(r,g,b) 或 r,g,b
 /**
- * rgb hex 颜色转换
- * @param data 转换前颜色如 (255,255,255) #FFFFFF
- * @param type 转化的另一种颜色格式 hex 或 rgb
- * @returns
+ * 颜色转换函数
+ * @param colorValue 当前颜色 
+ * @param targetType 目标格式
+ * @returns 目标格式颜色
  */
-const Rgb_Hex = (data: string, type: "rgb" | "hex") => {
-  const reg =
-    type === "hex"
-      ? /^\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/
-      : /^#(\w{2})(\w{2})(\w{2})$/;
-  let arr = reg.exec(data);
-  if (!arr) return new Error("请检查参数传入是否正确");
+function convertColor(colorValue: string, targetType: 'hex' | 'rgb'): string | Color | null {
+  const hexRegex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+  const rgbRegex = /^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/;
+  if (hexRegex.test(colorValue) && targetType === 'rgb') {
+    const result = hexRegex.exec(colorValue);
+    if (result) {
+      return `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})`
+    }
+    return null;
+  } else if (rgbRegex.test(colorValue) && targetType === 'hex') {
+    const result = rgbRegex.exec(colorValue);
+    if (result) {
+      const [_, r, g, b] = result;
+      const componentToHex = (c: number): string => {
+        const hex = Math.round(c).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+      };
+      const hexR = componentToHex(parseInt(r, 10));
+      const hexG = componentToHex(parseInt(g, 10));
+      const hexB = componentToHex(parseInt(b, 10));
+      return `#${hexR}${hexG}${hexB}`;
+    }
+    return null;
+  }
 
-  const toHex = (x: string): string => {
-    return ("0" + parseInt(x).toString(16)).slice(-2);
-  };
+  return null;
+}
 
-  const toRgb = (x: string): number => {
-    return parseInt(x, 16);
-  };
-  const result = {
-    hex: ("#" + toHex(arr[1]) + toHex(arr[2]) + toHex(arr[3])).toUpperCase(),
-    rgb: `(${toRgb(arr[1])},${toRgb(arr[2])},${toRgb(arr[3])})`,
-  };
-  return result[type]
-    ? result[type]
-    : new Error(`${type} 格式出错 请输入正确格式`);
-};
-
-// 随机颜色生成 参数type 默认rgb 可选hex
-/**
- * 随机颜色生成
- * @param type 颜色类型 rgb或hex 默认为rgb
- * @returns 生成的颜色值
- */
-const colorRdm = (type: "rgb" | "hex" = "rgb") => {
-  let min = 0;
-  let max = 255;
-  let r = Math.floor(Math.random() * (max - min) + min);
-  let g = Math.floor(Math.random() * (max - min) + min);
-  let b = Math.floor(Math.random() * (max - min) + min);
-  if (type === "hex") return Rgb_Hex(`(${r},${g},${b})`, "hex");
-  return `(${r},${g},${b})`;
-};
 
 // 文件批量分类
 // 按后缀分类
@@ -214,14 +204,57 @@ function truncate(str: string, num: number) {
   return result.join("") + "...";
 }
 
+/**
+ * 判断输入的对象是否被包裹
+ * @param input 
+ * @returns 
+ */
+function isPropertyQuoted(input: string) {
+  const regex = /"([^"]+)":/g;
+  const matches = input.match(regex);
+
+  if (matches) {
+    return matches.every(match => match[0] === '"' && match[match.length - 1] === '"');
+  }
+  return false;
+}
+
+/**
+ * json格式化
+ * @param jsonData 待格式化JSON 
+ * @returns 格式化后的JSON
+ */
+function formatJson(jsonData: any): string {
+  try {
+    // 如果输入是字符串，尝试解析为 JSON 对象
+    // 如果属性没有双引号进行替换
+    let parsedJson = null;
+    if (typeof jsonData === 'string') {
+      if (isPropertyQuoted(jsonData)) {
+        parsedJson = JSON.parse(jsonData)
+      } else {
+        parsedJson = jsonData.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ')
+        parsedJson = JSON.parse(parsedJson)
+      }
+    }
+    // 使用 JSON.stringify 将其转换为格式化的 JSON 字符串
+    const formattedJson = JSON.stringify(parsedJson, null, 4);
+    return formattedJson;
+  } catch (error: any) {
+    return `Error formatting JSON: ${error.message}`;
+  }
+}
+
 export {
   curTimeFormat,
-  colorRdm,
+  // colorRdm,
   createRdm,
   filType,
-  Rgb_Hex,
+  // Rgb_Hex,
   sleep,
   reverseStr,
   palindrome,
   truncate,
+  formatJson,
+  convertColor
 };
